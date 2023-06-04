@@ -3,8 +3,6 @@ import clsx from "clsx";
 import React from "react";
 
 const OrdersRow = ({ count, total, maxTotal, amount, price, inverted }) => {
-  // console.count("row");
-
   return (
     <div className="orders-list__row-wrapper">
       <div

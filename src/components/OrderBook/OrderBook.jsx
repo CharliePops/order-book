@@ -18,6 +18,7 @@ const OrderBook = () => {
     dispatch({ type: "INITIALIZE_WEB_SOCKETS_CHANNEL" });
   }, [dispatch]);
 
+  // the max total value from both lists
   let maxTotal = 0;
 
   const [sortedBids, sortedAsks] = [bids, asks].map((list) => {
@@ -28,7 +29,6 @@ const OrderBook = () => {
     const ordersWithTotal = limitedOrders.map((order) => {
       total = total + order.amount;
       if (total > maxTotal) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         maxTotal = total;
       }
 

@@ -67,7 +67,7 @@ function* initializeWebSocketsChannel() {
 function* watchBook() {
   yield put(initBook());
   while (true) {
-    yield delay(3000);
+    yield delay(1000);
     yield put(saveBook());
   }
 }
