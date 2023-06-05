@@ -4,8 +4,9 @@ import OrdersRow from "./OrdersRow";
 
 const OrdersList = ({ orders, maxTotal, inverted = false }) => {
   return (
-    <div className="orders-list">
+    <div data-testid="order-list" className="orders-list">
       <div
+        data-testid="order-list-head"
         className={clsx(
           "orders-list__row",
           "orders-list__head",

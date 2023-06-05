@@ -23,15 +23,12 @@ export const book = createSlice({
       localStorage.setItem("book", JSON.stringify(current(state)));
     },
     addOrder: (state, { payload: order }) => {
-      const { type, price } = order;
+      const { type, price, amount } = order;
       // save order for easier querying later
-      state[type][price] = order;
-    },
-    addManyOrders: (state, { payload: orders }) => {
-      orders.forEach((order) => {
-        const { type, price } = order;
-        state[type][price] = order;
-      });
+      state[type][price] = {
+        ...order,
+        amount: Math.abs(amount),
+      };
     },
     deleteOrder: (state, { payload }) => {
       const { type, price } = payload;
@@ -52,7 +49,7 @@ export const selectAsks = (state) => state.book.asks;
 
 export const selectSortedByPrices = (type) => (state) => {
   const orders = state.book[type] || [];
-  const sorted = Object.keys(orders || []).sort((a, b) => {
+  const sorted = Object.keys(orders).sort((a, b) => {
     if (type === "bids") {
       return Number(a) >= Number(b) ? -1 : 1;
     } else {

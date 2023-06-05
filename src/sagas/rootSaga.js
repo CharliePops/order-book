@@ -1,5 +1,3 @@
-/* eslint-disable no-constant-condition */
-
 import { eventChannel } from "redux-saga";
 import { all, call, delay, put, take, takeLatest } from "redux-saga/effects";
 import {
@@ -9,7 +7,7 @@ import {
   saveBook,
 } from "../features/book/bookSlice";
 
-function createEventChannel(socket) {
+export function createEventChannel(socket) {
   return eventChannel((emit) => {
     socket.addEventListener("open", () => {
       // TODO: load first orders in bulk
@@ -34,7 +32,7 @@ function createEventChannel(socket) {
   });
 }
 
-function* handleMessage(message) {
+export function* handleMessage(message) {
   const data = JSON.parse(message.data);
 
   if (data.event || data[1] === "hb") return;
@@ -50,11 +48,11 @@ function* handleMessage(message) {
     }
   } else {
     const type = amount >= 0 ? "bids" : "asks";
-    yield put(addOrder({ type, price, amount: Math.abs(amount), count }));
+    yield put(addOrder({ type, price, amount, count }));
   }
 }
 
-function* initializeWebSocketsChannel() {
+export function* initializeWebSocketsChannel() {
   const socket = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
   const channel = yield call(createEventChannel, socket);
   while (true) {
