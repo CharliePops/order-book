@@ -7,7 +7,10 @@ export const book = createSlice({
     asks: {},
   },
   reducers: {
-    // set initila state
+    resetBook: (state) => {
+      state.bids = {};
+      state.asks = {};
+    },
     initBook: (state) => {
       try {
         const book = JSON.parse(localStorage.getItem("book"));
@@ -40,7 +43,8 @@ export const book = createSlice({
 });
 
 // actions
-export const { addOrder, deleteOrder, initBook, saveBook } = book.actions;
+export const { addOrder, deleteOrder, initBook, saveBook, resetBook } =
+  book.actions;
 
 // selectors
 export const selectOrders = (type) => (state) => state.book[type];

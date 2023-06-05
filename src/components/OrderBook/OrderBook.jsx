@@ -4,7 +4,7 @@ import useOrderBook from "./useOrderBook";
 import "./OrderBook.scss";
 
 const OrderBook = () => {
-  const { bids, asks, maxTotal } = useOrderBook();
+  const { bids, asks, maxTotal, resetData } = useOrderBook();
 
   if (!bids.length || !asks.length) {
     return "Loading...";
@@ -19,6 +19,13 @@ const OrderBook = () => {
         <OrderList orders={bids} maxTotal={maxTotal} />
         <OrderList orders={asks} maxTotal={maxTotal} inverted />
       </div>
+      <button
+        className="order-book__reset"
+        title="Reset Book Data"
+        onClick={resetData}
+      >
+        Reset Book
+      </button>
     </div>
   );
 };

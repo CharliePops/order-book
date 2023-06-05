@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectSortedByPrices } from "../../features/book/bookSlice";
+import { resetBook, selectSortedByPrices } from "../../features/book/bookSlice";
 
 import "./OrderBook.scss";
 import { useEffect } from "react";
@@ -14,6 +14,10 @@ const useOrderBook = () => {
     dispatch({ type: "INIT_WATCH_BOOK" });
     dispatch({ type: "INITIALIZE_WEB_SOCKETS_CHANNEL" });
   }, [dispatch]);
+
+  const resetData = () => {
+    dispatch(resetBook());
+  };
 
   // the max total value from both lists
   let maxTotal = 0;
@@ -39,7 +43,7 @@ const useOrderBook = () => {
     return ordersWithTotal;
   });
 
-  return { bids, asks, maxTotal };
+  return { bids, asks, maxTotal, resetData };
 };
 
 export default useOrderBook;

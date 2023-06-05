@@ -4,9 +4,6 @@ import OrderBook from "./OrderBook";
 import OrdersList from "./OrdersList";
 import OrdersRow from "./OrdersRow";
 
-// eslint-disable-next-line no-unused-vars
-import useOrderBook from "./useOrderBook";
-
 const mockOrders = [
   {
     type: "bids",
