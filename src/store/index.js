@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import bookReducer from "../features/book/bookSlice";
-import sagas from "../sagas/rootSaga";
+import sagas from "../sagas";
 
 let sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];

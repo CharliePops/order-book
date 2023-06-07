@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { it, describe, expect, vi } from "vitest";
-import OrderBook from "./OrderBook";
+import { it, describe, expect } from "vitest";
+import { OrderBook } from "./OrderBook";
 import OrdersList from "./OrdersList";
 import OrdersRow from "./OrdersRow";
 
-const mockOrders = [
+const mockOrdersBids = [
   {
     type: "bids",
     price: 27331,
@@ -47,28 +47,74 @@ const mockOrders = [
   },
 ];
 
-vi.mock("./useOrderBook", () => {
-  return {
-    default: () => ({ bids: mockOrders, asks: mockOrders, maxTotal: 50 }),
-  };
-});
+const mockOrdersAsks = [
+  {
+    type: "asks",
+    price: 25600,
+    amount: 0.89693958,
+    count: 11,
+    total: 0.89693958,
+    maxTotal: 34.77960037,
+  },
+  {
+    type: "asks",
+    price: 25601,
+    amount: 0.12,
+    count: 3,
+    total: 1.0169395799999998,
+    maxTotal: 34.77960037,
+  },
+  {
+    type: "asks",
+    price: 25602,
+    amount: 0.02,
+    count: 2,
+    total: 1.0369395799999999,
+    maxTotal: 34.77960037,
+  },
+  {
+    type: "asks",
+    price: 25603,
+    amount: 0.483,
+    count: 1,
+    total: 1.51993958,
+    maxTotal: 34.77960037,
+  },
+  {
+    type: "asks",
+    price: 25604,
+    amount: 0.390567,
+    count: 1,
+    total: 1.9105065799999998,
+    maxTotal: 34.77960037,
+  },
+];
 
 describe("OrderBook", () => {
   it("should render title/subtitle", () => {
-    render(<OrderBook />);
+    render(
+      <OrderBook bids={mockOrdersBids} asks={mockOrdersAsks} maxTotal={100} />
+    );
     expect(screen.getByText(/Order Book/i)).toBeInTheDocument();
     expect(screen.getByText(/BTC\/USD/i)).toBeInTheDocument();
   });
 
   it("should render 2 list", () => {
-    render(<OrderBook />);
+    render(
+      <OrderBook bids={mockOrdersBids} asks={mockOrdersAsks} maxTotal={100} />
+    );
     expect(screen.getAllByTestId("order-list").length).toBe(2);
+  });
+
+  it("should render loading if bids/asks are empty", () => {
+    render(<OrderBook bids={[]} asks={[]} maxTotal={0} />);
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 });
 
 describe("OrdersList", () => {
   it("should display all colums", () => {
-    render(<OrdersList maxTotal={50} orders={mockOrders} />);
+    render(<OrdersList maxTotal={50} orders={mockOrdersBids} />);
     expect(screen.getByText(/count/i)).toBeInTheDocument();
     expect(screen.getByText(/amount/i)).toBeInTheDocument();
     expect(screen.getByText(/total/i)).toBeInTheDocument();
@@ -76,12 +122,12 @@ describe("OrdersList", () => {
   });
 
   it("should always display 25 rows", () => {
-    render(<OrdersList maxTotal={50} orders={mockOrders} />);
+    render(<OrdersList maxTotal={50} orders={mockOrdersBids} />);
     expect(screen.getAllByTestId("orders-row").length).toBe(25);
   });
 
   it("should be inverted", () => {
-    render(<OrdersList maxTotal={50} orders={mockOrders} />);
+    render(<OrdersList maxTotal={50} orders={mockOrdersBids} />);
     expect(screen.getByTestId("order-list-head")).toHaveClass(
       "orders-list__row orders-list__head"
     );
@@ -89,7 +135,7 @@ describe("OrdersList", () => {
 });
 
 describe("OrdersRow", () => {
-  const { amount, count, price, total, maxTotal } = mockOrders[4];
+  const { amount, count, price, total, maxTotal } = mockOrdersBids[4];
 
   it("should display all values correctly", () => {
     render(

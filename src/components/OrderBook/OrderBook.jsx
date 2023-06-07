@@ -1,11 +1,10 @@
+import PropTypes from "prop-types";
 import OrderList from "./OrdersList";
 import useOrderBook from "./useOrderBook";
 
 import "./OrderBook.scss";
 
-const OrderBook = () => {
-  const { bids, asks, maxTotal, resetData } = useOrderBook();
-
+export const OrderBook = ({ bids, asks, maxTotal, resetData = () => {} }) => {
   if (!bids.length || !asks.length) {
     return "Loading...";
   }
@@ -30,4 +29,17 @@ const OrderBook = () => {
   );
 };
 
-export default OrderBook;
+OrderBook.propTypes +
+  {
+    bids: PropTypes.array.isRequired,
+    asks: PropTypes.array.isRequired,
+    maxTotal: PropTypes.number.isRequired,
+    resetData: PropTypes.func,
+  };
+
+const OrderBookEnhanced = () => {
+  const orderBook = useOrderBook();
+  return <OrderBook {...orderBook} />;
+};
+
+export default OrderBookEnhanced;
