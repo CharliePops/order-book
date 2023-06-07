@@ -2,7 +2,7 @@
 
 An order book React Component using Bitfinex Websocket API.
 
-Live Demo: https://sparkly-bunny-87b15b.netlify.app/
+Live Demo: https://order-book-widget.netlify.app/
 
 ## Development
 
